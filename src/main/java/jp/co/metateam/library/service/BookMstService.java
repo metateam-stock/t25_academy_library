@@ -24,14 +24,6 @@ public class BookMstService {
     public BookMstService(BookMstRepository bookMstRepository){
         this.bookMstRepository = bookMstRepository;
     }
-
-    // public List<BookMst> findAll() {
-    //     return this.bookMstRepository.findLimitedBook();
-    // }
-
-    // public Optional<BookMst> selectById(Long id) {
-    //     return this.bookMstRepository.selectById(id);
-    // }
     
     public List<BookMstDto> findAvailableWithStockCount() {
         List<BookMst> books = this.bookMstRepository.findLimitedBook();
