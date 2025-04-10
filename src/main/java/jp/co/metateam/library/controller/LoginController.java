@@ -23,7 +23,8 @@ public class LoginController {
             return "redirect:book/index";
         }
         return "redirect:/login";
-    }
+    }//test
+
 }
 
 
