@@ -26,7 +26,5 @@ public class LoginController {
     }
 
     //testコメント
+    
 }
-
-
->>>>>>> 6a972a5fea0812ec2ce0530e72337e62315826de
