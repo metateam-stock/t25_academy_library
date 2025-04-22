@@ -17,8 +17,6 @@ import lombok.Setter;
 @Setter
 public class AccountDto {
 
-    @NotEmpty(message = "社員番号は必須です")
-    @Size(max = 50)
     private String employeeId;
 
     @NotEmpty(message = "氏名は必須です")

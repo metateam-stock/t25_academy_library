@@ -16,11 +16,38 @@
                 <div class="page_title">書籍登録</div>
                 <div class="page_contents">
                     <form id="book_register_form" th:object="${bookMstDto}" th:action="@{/book/add}" method="post">
-                        <div class="mb30 flexarea">
+                        <table>
+                            <p style="font-size: 12px; color: red;">*これは必須項目です</p>
                             <span>
                                 <a th:href="@{/book/index}" class="link">← 一覧へ戻る</a>
                             </span>
-                        </div>
+                            <caption></caption>
+                            <tbody>
+                                <tr>
+                                    <th scope="col">書籍名&nbsp;<span style="color:red;">*</span> </th> 
+                                </tr> 
+                                <tr>   
+                                    <td>
+                                        <input type="text" name="title" placeholder="書籍名を入力"  maxlength="255"
+                                            style="width: 600px;" th:field="*{title}" />                                      
+                                        <div class="error_msg" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                                    </td>   
+                                </tr>
+                                <tr>
+                                    <th scope="col">ISBN&nbsp;<span style="color:red;">*</span></th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="text" name="isbn" placeholder="ISBNを入力"  maxlength="255"
+                                            style="width: 600px;" th:field="*{isbn}" />
+                                        <div class="error_msg" th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"></div>
+                                        
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button type="submit">保存</button>
+                        <div class="mb30 flexarea"></div>
                     </form>
                 </div>
             </div>
@@ -28,3 +55,4 @@
     </div>
     <div th:replace="~{common :: footer}"></div>
 </body>
+</html>
