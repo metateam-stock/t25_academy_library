@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import io.micrometer.common.util.StringUtils;
+import jp.co.metateam.library.model.Account;
+import jp.co.metateam.library.model.AccountDto;
 import jp.co.metateam.library.model.BookMst;
 import jp.co.metateam.library.model.BookMstDto;
 import jp.co.metateam.library.repository.BookMstRepository;
@@ -42,7 +44,25 @@ public class BookMstService {
 
         return bookMstDtoList;
     }
-    
+    public BookMst selectByIsbn(String isbn) {
+        return this.bookMstRepository.selectByIsbn(isbn);
+    }
+    @Transactional
+    public void save(BookMstDto bookMstDto) {
+        try {
+            // BookMstDtoからBookMstへの変換
+            BookMst bookMst = new BookMst();
+
+            bookMst.setTitle(bookMstDto.getTitle());
+            bookMst.setIsbn(bookMstDto.getIsbn());
+            //後日void saveとbookMstRepositoryのsave
+
+            // データベースへの保存
+            this.bookMstRepository.save(bookMst);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }
 
 
