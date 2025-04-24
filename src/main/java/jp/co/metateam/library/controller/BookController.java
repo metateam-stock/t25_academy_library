@@ -103,14 +103,14 @@ public class BookController {
 //重複チェック↓
         // もしISBNがすでに存在している場合、エラーを返す
         BookMst isbnExist = this.bookMstService.selectByIsbn(bookMstDto.getIsbn());
-        if (isbnExist == null) {
+        if (isbnExist != null) {
         errorMessages.add("登録済みのISBNです");
         result.rejectValue("isbn", "error.exists", "登録済みのISBNです");
         errIsbnFlg = true;//}
         }
         // エラーがあれば、エラーメッセージリストをフラッシュ属性に渡す
         if (errTitleFlg || errIsbnFlg) {
-            ra.addFlashAttribute("errorMessages", errorMessages);
+            //ra.addFlashAttribute("errorMessages", errorMessages);
             return "book/add"; // エラーがある場合、フォーム画面にリダイレクト
         }
 
