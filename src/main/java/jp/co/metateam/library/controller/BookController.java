@@ -79,7 +79,6 @@ public class BookController {
             log.error("登録失敗:"+e.getMessage() );
             log.error("書籍情報の保存に失敗しました",e);
             model.addAttribute("errorMessage","書類情報の保存中にエラーが発生しました。もう一度お試しください。");
-            this.bookMstService.save(bookMstDto);   
 
             return "book/add";    
         }
