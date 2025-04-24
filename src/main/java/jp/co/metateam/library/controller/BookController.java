@@ -28,11 +28,11 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Controller
 public class BookController {
-    
+
     private final BookMstService bookMstService;
 
     @Autowired
-    public BookController(BookMstService bookMstService){
+    public BookController(BookMstService bookMstService) {
         this.bookMstService = bookMstService;
     }
 
@@ -40,7 +40,7 @@ public class BookController {
     public String index(Model model) {
         // 書籍を全件取得
         List<BookMstDto> bookMstList = this.bookMstService.findAvailableWithStockCount();
-        
+
         model.addAttribute("bookMstList", bookMstList);
 
         return "book/index";
@@ -52,78 +52,76 @@ public class BookController {
             model.addAttribute("bookMstDto", new BookMstDto());
         }
 
-        return "book/add";//書籍登録画面
+        return "book/add";// 書籍登録画面
     }
-    
+
     @PostMapping("/book/add")
-    public String addbook(@Valid @ModelAttribute BookMstDto bookMstDto, BindingResult result, RedirectAttributes ra,Model model) {
+    public String addbook(@Valid @ModelAttribute BookMstDto bookMstDto, BindingResult result, RedirectAttributes ra,
+            Model model) {
 
         boolean errTitleFlg = false;
         boolean errIsbnFlg = false;
         // boolean errIsbnnullFlg = false;
         // boolean errIsbncharacount = false;
         // boolean errIsbncharatype= false;
-            
+
         String title = bookMstDto.getTitle();
         String isbn = bookMstDto.getIsbn();
 
         // String errMsgTitle="";
         // String errMsgIsbn="";
-            List<String>errTitleList=new ArrayList<String>();
-            List<String>errIsbnList=new ArrayList<String>();
+        List<String> errTitleList = new ArrayList<String>();
+        List<String> errIsbnList = new ArrayList<String>();
 
-            if(StringUtils.isEmpty(title)){
-                errTitleList.add("書籍名は必須です");
-                errTitleFlg = true;
-            }
-            else if(title.length()>=255){
-                errTitleList.add("書籍名は255文字以内で入力してください");
-                errTitleFlg = true;
-            }
-            if(StringUtils.isEmpty(isbn)){
-                errIsbnList.add("ISBNは必須です");
-                result.rejectValue("isbn","error.required","ISBNは必須です");
-                errIsbnFlg = true;
-            }
-            
-            else{
-                if(isbn.length()!=13){
+        if (StringUtils.isEmpty(title)) {
+            errTitleList.add("書籍名は必須です");
+            errTitleFlg = true;
+        } else if (title.length() >= 255) {
+            errTitleList.add("書籍名は255文字以内で入力してください");
+            errTitleFlg = true;
+        }
+        if (StringUtils.isEmpty(isbn)) {
+            errIsbnList.add("ISBNは必須です");
+            result.rejectValue("isbn", "error.required", "ISBNは必須です");
+            errIsbnFlg = true;
+        }
+
+        else {
+            if (isbn.length() != 13) {
                 errIsbnList.add("ISBNは13文字以内で入力してください");
-                result.rejectValue("isbn","error.length","ISBNは13文字以内で入力してください");
-                errIsbnFlg=true;
-    
+                result.rejectValue("isbn", "error.length", "ISBNは13文字以内で入力してください");
+                errIsbnFlg = true;
+
             }
 
-            if(!isbn.matches("[0-9]+")){
-            errIsbnList.add("ISBNは半角数字のみで入力してください");
-            result.rejectValue("isbn","error.format","ISBNは半角数字のみで入力してください");
-            errIsbnFlg=true;
-        
+            if (!isbn.matches("[0-9]+")) {
+                errIsbnList.add("ISBNは半角数字のみで入力してください");
+                result.rejectValue("isbn", "error.format", "ISBNは半角数字のみで入力してください");
+                errIsbnFlg = true;
+
             }
-        
-            if(!errTitleFlg){
-                var existingBook=bookMstService.selectByIsbn(isbn);
-                if(existingBook != null){
+
+            if (!errTitleFlg) {
+                var existingBook = bookMstService.selectByIsbn(isbn);
+                if (existingBook != null) {
                     errIsbnList.add("このISBNは登録済みです");
-                    result.rejectValue("isbn","error.duplicate","このISBNは登録済みです");
+                    result.rejectValue("isbn", "error.duplicate", "このISBNは登録済みです");
                     errIsbnFlg = true;
                 }
             }
-            }
-        
- 
-        if(errTitleFlg || errIsbnFlg){
+        }
+
+        if (errTitleFlg || errIsbnFlg) {
             model.addAttribute("errTitleList", errTitleList);
             model.addAttribute("errIsbnList", errIsbnList);
             model.addAttribute("bookMstDto", bookMstDto);
             return "book/add";
-           
+
         }
-            
 
-            bookMstService.save(bookMstDto);
+        bookMstService.save(bookMstDto);
 
-            return "redirect:/book/index";
-        
+        return "redirect:/book/index";
+
     }
 }
