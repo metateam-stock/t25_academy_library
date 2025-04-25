@@ -63,3 +63,9 @@
   color: #0000EE;
 }
 
+.register_button {
+  display: flex;
+  justify-content: flex-end; /* ← 右寄せ */
+  margin-bottom: 20px;
+}
+
