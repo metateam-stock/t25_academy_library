@@ -69,3 +69,10 @@
   margin-bottom: 20px;
 }
 
+.register-button{
+  background-color: mediumaquamarine ; 
+  color: #545454;
+  border: none;  
+  border-radius: 5px; 
+  padding: 10px 20px;               
+}

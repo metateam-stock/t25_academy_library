@@ -13,11 +13,9 @@
             <div class="inner_contens">
                 <div class="page_title">書籍一覧</div>
             
-                <div class ="register_button">
-                    <dr>
-                        <a th:href="@{/book/add}"> <button>書籍登録</button></a>
-                    </dr>
-                </div>
+                <form th:action="@{/book/add}" method="get" class="register_button">
+                    <button type="submit" class="register-button">+書籍登録</button>
+                </form>
 
                 <table class = "books_table">
                     <thead>
