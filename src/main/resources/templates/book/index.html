@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
 <head th:replace="~{common :: meta_header('書籍一覧',~{::link},~{::script})}">
     <title th:text="${title}+' | MTLibrary'"></title>
     <link rel="stylesheet" th:href="@{/css/book/index.css}" />
     <script type="text/javascript" th:src="@{/js/book/index.js}"></script>
 </head>
+
 <body>
     <div class="contents">
         <div th:replace="~{common :: main_sidebar}"></div>
@@ -12,8 +14,47 @@
             <div th:replace="~{common :: header}"></div>
             <div class="inner_contens">
                 <div class="page_title">書籍一覧</div>
+                <!-- <div class="btn_block">
+                    <input type="submit" value="書籍登録">
+                </div> -->
+
+                <dr>
+                    <div style="float: right;">
+                        <a th:href="@{/book/add}">
+                            <button
+                                style="background-color: green; color: white; border: none; padding: 10px 20px; cursor: pointer;">+
+                                書籍登録</button>
+                        </a>
+                    </div>
+
+                    <span style="color: gray;">書籍一覧</span>
+
+
+                    <table class="books_table">
+                        <thead>
+                            <tr>
+                                <th>書籍名</th>
+                                <th>ISBN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="book : ${bookMstList}">
+                                <td th:text="${book.title}">書籍タイトル</td>
+                                <td th:text="${book.isbn}">ISBNコード</td>
+                            </tr>
+                        </tbody>
+
+
+                    </table>
+
+
+
+
             </div>
         </div>
     </div>
+
+
     <div th:replace="~{common :: footer}"></div>
+
 </body>
