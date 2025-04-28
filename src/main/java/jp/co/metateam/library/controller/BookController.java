@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
+import jp.co.metateam.library.model.Account;
+import jp.co.metateam.library.model.AccountDto;
 import jp.co.metateam.library.model.BookMst;
 import jp.co.metateam.library.model.BookMstDto;
 import jp.co.metateam.library.service.BookMstService;
@@ -50,5 +53,28 @@ public class BookController {
 
         return "book/add";
     }
+
+    @PostMapping("/book/add")
+      public String saveBook(@ModelAttribute("bookMstDto") BookMstDto bookMstDto,
+                                   BindingResult result,
+                                   Model model) {
+           
+                boolean checkResult = bookMstService.checkEntry(bookMstDto, model);
+                           //画面変更します
+                if (checkResult) {
+                    return "book/add"; // バリデーションエラー時、登録画面に戻す
+                } else{
+               
+                // 登録処理
+                bookMstService.save(bookMstDto);
+                return "redirect:/book/index"; // 正常登録後、一覧に戻る
+       
+
+                
+        }
+    }
+    
+
+
     
 }
