@@ -7,56 +7,6 @@
     <script type="text/javascript" th:src="@{/js/book/add.js}"></script>
 </head>
 
-
-                   <!--<form id="book_register_form" th:object="${bookMstDto}" th:action="@{/book/add}" method="post">
-                       <!--<div class="mb30 flexarea">
-                            <span>
-                                <a th:href="@{/book/index}" class="link">← 一覧へ戻る</a>
-                                <h1>※は必須項目<h1>
-                                <!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>private String title;</title>
-  <style>
-    .warning-label input[type="text"] {
-      display: block;
-      margin-top: 8px;
-      padding: 6px;
-      width: 100%;
-      max-width: 300px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-  </style>
-</head>
-<body>
- 
-  <div class="warning-label">
-    ※書籍名
-    <input type="text" placeholder="書籍名">
-  <style>
-    .warning-label input[type="text"] {
-      display: block;
-      margin-top: 16px;
-      padding: 8px;
-      width: 100%;
-      max-width: 300px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-  </style>
-</head>
-<body>
-  <title>private String isbn;</title>
-  <div class="warning-label">
-      ※ISBN
-    <input type="text" placeholder="ISBN">
-    <button>保存</button>
-  </div>
-</body>
-</html>-->
-
 <body>
     <div class="contents">
         <div th:replace="~{common :: main_sidebar}"></div>
@@ -66,6 +16,7 @@
                 <div class="page_title">書籍登録</div>
                 <h1>書籍登録</h1>            
                  <div class="page_contents">
+
                     <form id="book_register_form" th:object="${bookMstDto}" th:action="@{/book/add}" method="post">
                         <div class="mb30 flexarea">
                             <span>
@@ -88,16 +39,9 @@
                                     <td>
                                         <input type="text" name="isbn" th:field="*{isbn}" placeholder="ISBNを入力"/>
                                        <div class="error_msg" th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"></div>
-                                     <!-- 重複エラー表示-->
-                                      <ul th:if="${errtitle}"th:each="err : ${errtitle}" style="color:red;">
-                                        <li th:text="${err}"></li>
-                                      </ul>
                                       <div th:if="${errisbn}" style="color: red;">
                                         <span th:text="${errisbn}"></span>
-                                      </div>                                    
-                                       <div th:if="${errisbn}">
-                                        <span th:text="${errisbn}"></span>
-                                    </div>                                    
+                                      </div>                                                             
                                       </div>  
                                   </td>
                                 </tr>

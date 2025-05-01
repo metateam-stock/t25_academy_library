@@ -39,11 +39,17 @@ public class BookMstService {
             throw e;
         }
     }
-    public boolean isbnDuplicateCheck(String isbn){
-        List<BookMstDto> bookMstDtoList = findAvailableWithStockCount();
-        boolean isContains = Arrays.asList(bookMstDtoList).contains(isbn);
-        return isContains;
+    public boolean isbnDuplicateCheck(String isbn) {
+        List<BookMstDto> bookMstDtoList = findAvailableWithStockCount(); 
+        for (BookMstDto book : bookMstDtoList) {
+            String bookIsbn = book.getIsbn();
+            if (isbn != null && isbn.equals(bookIsbn)) {
+                return true; // 重複あり
+            }
+        } 
+        return false; // 重複なし
     }
+
     public List<BookMstDto> findAvailableWithStockCount() {
         List<BookMst> books = this.bookMstRepository.findLimitedBook();
         List<BookMstDto> bookMstDtoList = new ArrayList<BookMstDto>();
