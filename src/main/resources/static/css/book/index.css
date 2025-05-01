@@ -1,9 +1,12 @@
+
 .books_table {
- width: 100%;
+ width: 50%;
  text-align: left;
  border-collapse: collapse;
  border-spacing: 0;
  border-radius:10px;
+ margin: 0 auto; 
+ margin-top: 100px;
 }
 
 .books_table th{
@@ -25,7 +28,7 @@
 }
 
 .books_table td:nth-child(1){
-  width: 40%;
+  width: 70%;
 }
 
 .books_table td:nth-child(1) .book_title_contents{
@@ -60,6 +63,16 @@
 }
 
 .books_table td a{
-  color: #0000EE;
+  color: #0018ee;
 }
 
+.index_button {
+
+  background-color: rgb(162, 214, 138); /* ボタンの背景色を赤に設定 */
+  
+  color: rgb(4, 4, 4); /* ボタンのテキスト色を白に設定 */
+  
+   }
+   .button {
+    text-align: right;
+   }

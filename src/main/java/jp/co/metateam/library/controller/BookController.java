@@ -46,7 +46,7 @@ public class BookController {
         return "book/index";
     }
 
-    @GetMapping("/book/add")
+    @GetMapping("/book/add")//add htmlのgetからとんでくる
     public String add(Model model) {
         if (!model.containsAttribute("bookMstDto")) {
             model.addAttribute("bookMstDto", new BookMstDto());
