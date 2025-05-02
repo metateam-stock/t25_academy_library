@@ -14,7 +14,7 @@
                 <div class="page_title">書籍一覧</div>
             
                 <form th:action="@{/book/add}" method="get" class="register_button">
-                    <button type="submit" class="register-button">+書籍登録</button>
+                    <button class="green-button"><img th:src="@{/images/icons/add.png}" alt="アイコン" style="height: 13px; vertical-align: middle; margin-right: 5px;">書籍登録</button>
                 </form>
 
                 <table class = "books_table">
@@ -26,7 +26,11 @@
                     </thead>
                     <tbody>
                         <tr th:each="book : ${bookMstList}">
-                            <td th:text="${book.title}">書籍タイトル</td>
+                            <td>
+                                <img th:src="@{/images/icons/edit.png}" alt="アイコン" style="height: 13px; vertical-align: middle; margin-right: 5px;">
+                                <img th:src="@{/images/icons/trash.png}" alt="アイコン" style="height: 13px; vertical-align: middle; margin-right: 5px;">
+                                <span th:text="${book.title}">書籍タイトル</span>
+                            </td>
                             <td th:text="${book.isbn}">ISBNコード</td>
                         </tr>
                     </tbody>
@@ -38,3 +42,4 @@
     </div>
     <div th:replace="~{common :: footer}"></div>
 </body>
+

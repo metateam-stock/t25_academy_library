@@ -1,5 +1,5 @@
 .books_table {
- width: 70%;
+ width: 80%;
  text-align: left;
  border-collapse: collapse;
  border-spacing: 0;
@@ -68,12 +68,13 @@
   display: flex;
   justify-content: flex-end; /* ← 右寄せ */
   margin-bottom: 20px;
+  
 }
 
-.register-button{
+.green-button{
   background-color: mediumaquamarine ; 
   color: #545454;
   border: none;  
   border-radius: 5px; 
-  padding: 10px 20px;               
+  padding: 10px 20px; 
 }
