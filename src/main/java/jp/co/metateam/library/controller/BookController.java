@@ -78,16 +78,16 @@ public class BookController {
                 errIsbnList.add("ISBNは必須です");
                 errIsbnFlg = true;
                 }
-             if( titleExist != null && titleExist.length()>256){
+             else if( titleExist != null && titleExist.length()>256){
                 errTitleList.add("書籍名は255文字以内で入力してください");
                 errtitleFlg = true;
                 }
           
-             if(IsbnExist  != null && IsbnExist.length() != 13){
+             else if(IsbnExist  != null && IsbnExist.length() != 13){
                 errIsbnList.add("ISBNは13文字で入力してください");
                 errIsbnFlg = true;
                 }
-             if(IsbnExist != null && !IsbnExist.matches("^[0-9]+$")){
+             else if(IsbnExist != null && !IsbnExist.matches("^[0-9]+$")){
                 errIsbnList.add("ISBNの形式が不正です");
                 errIsbnFlg = true;
                 }
