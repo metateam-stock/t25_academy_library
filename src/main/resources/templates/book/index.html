@@ -27,8 +27,9 @@
                     <tbody>
                         <tr th:each="book : ${bookMstList}">
                             <td>
-                                <img th:src="@{/images/icons/edit.png}" alt="アイコン" style="height: 13px; vertical-align: middle; margin-right: 5px;">
-                                <img th:src="@{/images/icons/trash.png}" alt="アイコン" style="height: 13px; vertical-align: middle; margin-right: 5px;">
+                                <a th:href="@{/book/edit}">
+                                    <img th:src="@{/images/icons/edit.png}" alt="アイコン" style="height: 13px; vertical-align: middle; margin-right: 5px;"> </a>
+                                    <img th:src="@{/images/icons/trash.png}" alt="アイコン" style="height: 13px; vertical-align: middle; margin-right: 5px;">
                                 <span th:text="${book.title}">書籍タイトル</span>
                             </td>
                             <td th:text="${book.isbn}">ISBNコード</td>
