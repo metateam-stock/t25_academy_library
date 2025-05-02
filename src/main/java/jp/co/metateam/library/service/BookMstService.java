@@ -50,6 +50,7 @@ public class BookMstService {
         return false; // 重複なし
     }
 
+    
     public List<BookMstDto> findAvailableWithStockCount() {
         List<BookMst> books = this.bookMstRepository.findLimitedBook();
         List<BookMstDto> bookMstDtoList = new ArrayList<BookMstDto>();
