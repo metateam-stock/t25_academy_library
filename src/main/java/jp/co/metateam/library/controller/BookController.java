@@ -77,6 +77,20 @@ public class BookController {
             result.rejectValue("isbn", "error.required", "ISBNは必須です");
             errIsbnFlg = true;// ISBNが未入力の場合、エラーフラグを立てる
             // System.out.println("ISBNは必須です");
+        }else {
+            
+            if(bookMstDto.getIsbn().length() != 13) {
+            errorMessages.add("ISBNは13桁で入力してください");
+            result.rejectValue("isbn", "error.length", "ISBNは13桁で入力してください");
+            errIsbnFlg = true; // ISBNが13桁でない場合、エラーフラグを立てる
+            // System.out.println("ISBNは13桁で入力してください");
+            }
+            if (!bookMstDto.getIsbn().matches("^[0-9]+$")) {
+                errorMessages.add("ISBNは半角数字で入力してください");
+                result.rejectValue("isbn", "error.format", "ISBNは半角数字で入力してください");
+                errIsbnFlg = true; // ISBNが半角数字以外を含んでいる場合、エラーフラグを立てる
+         // System.out.println("ISBNは半角数字で入力してください");
+            }
         }
 
         // 書籍名が256文字以上の場合、エラーフラグを立てる
@@ -87,19 +101,19 @@ public class BookController {
             // System.out.println("書籍名は255文字以内で入力してください");
         }
 
-        if (bookMstDto.getIsbn().length() != 13) {
-            errorMessages.add("ISBNは13桁で入力してください");
-            result.rejectValue("isbn", "error.length", "ISBNは13桁で入力してください");
-            errIsbnFlg = true; // ISBNが13桁でない場合、エラーフラグを立てる
+        //if (bookMstDto.getIsbn().length() != 13) {
+           // errorMessages.add("ISBNは13桁で入力してください");
+           // result.rejectValue("isbn", "error.length", "ISBNは13桁で入力してください");
+           // errIsbnFlg = true; // ISBNが13桁でない場合、エラーフラグを立てる
             // System.out.println("ISBNは13桁で入力してください");
-        }
+        //}
 
-        if (!bookMstDto.getIsbn().matches("^[0-9]+$")) {
-            errorMessages.add("ISBNは半角数字で入力してください");
-            result.rejectValue("isbn", "error.format", "ISBNは半角数字で入力してください");
-            errIsbnFlg = true; // ISBNが半角数字以外を含んでいる場合、エラーフラグを立てる
+        //if (!bookMstDto.getIsbn().matches("^[0-9]+$")) {
+           // errorMessages.add("ISBNは半角数字で入力してください");
+           // result.rejectValue("isbn", "error.format", "ISBNは半角数字で入力してください");
+            //errIsbnFlg = true; // ISBNが半角数字以外を含んでいる場合、エラーフラグを立てる
             // System.out.println("ISBNは半角数字で入力してください");
-        }
+        //}
 //重複チェック↓
         // もしISBNがすでに存在している場合、エラーを返す
         BookMst isbnExist = this.bookMstService.selectByIsbn(bookMstDto.getIsbn());
