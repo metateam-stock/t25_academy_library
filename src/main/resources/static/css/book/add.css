@@ -3,7 +3,7 @@
 }
 
 #book_register_form p .asterisk {
-  font-size: 14px;
+  font-size: 10px;
   margin-left: 5px;
   margin-top: -5px;
 }
@@ -20,6 +20,8 @@
 #book_register_form .btn_block {
   display: flex;
   justify-content: center;
-  margin-top: 50px;
+  margin-top: 200px;
 }
-
+.button {
+  text-align: right;
+}

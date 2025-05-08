@@ -16,18 +16,17 @@
                 <div class="page_title">書籍登録</div>
                 <div class="page_contents">
                     <form id="book_register_form" th:object="${bookMstDto}" th:action="@{/book/add}" method="post">
-                        <span class="text red">*は必須項目です</span>
-                        <p>書籍名<br>
-                             <input type="text" name="title" th:field="*{title}">
+                        <span class="text red" style="color: red"><span>*</span>は必須項目です</span>
+                        <p><span style="color: red">*</span>書籍名<br>
+                             <input type="text" size="100" name="title" th:field="*{title}" placeholder="書籍名を入力">
                              <div class="error_msg" th:if="${errTitle}">
 					<div th:each="msg : ${errTitle}">
                                 		<p th:text="${msg}" style="color: red"></p>
 					</div>
                             </div>
                         </p>
-                        <span class="text red">*は必須項目です</span>
-                        <p>ISBN<br>
-                            <input type="text" name="isbn" th:field="*{isbn}">
+                        <p><span style="color: red">*</span>ISBN<br>
+                            <input type="text" size="100" name="isbn" th:field="*{isbn}" placeholder="ISBNを入力">
                             <div class="error_msg" th:if="${errIsbn}">
 					<div th:each="msg : ${errIsbn}">
                                 		<p th:text="${msg}" style="color: red"></p>

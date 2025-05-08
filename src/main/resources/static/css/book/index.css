@@ -68,9 +68,9 @@
 
 .index_button {
 
-  background-color: rgb(162, 214, 138); /* ボタンの背景色を赤に設定 */
+  background-color: rgb(162, 214, 138); 
   
-  color: rgb(4, 4, 4); /* ボタンのテキスト色を白に設定 */
+  color: rgb(4, 4, 4); 
   
    }
    .button {

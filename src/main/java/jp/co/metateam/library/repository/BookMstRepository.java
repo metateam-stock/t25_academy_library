@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface BookMstRepository extends JpaRepository<BookMst, Long> {
 
-	@Query(value = "SELECT * FROM book_mst LIMIT 1000", nativeQuery = true)
+	@Query(value = "SELECT * FROM book_mst LIMIT 1000", nativeQuery = true)//書籍データを取るためにアクセス中
 	List<BookMst> findLimitedBook();
 
 	@Query(value = "SELECT * FROM book_mst WHERE id = ?1", nativeQuery = true)

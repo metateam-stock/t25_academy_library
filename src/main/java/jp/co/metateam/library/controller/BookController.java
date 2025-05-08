@@ -39,9 +39,9 @@ public class BookController {
     @GetMapping("/book/index")
     public String index(Model model) {
         // 書籍を全件取得
-        List<BookMstDto> bookMstList = this.bookMstService.findAvailableWithStockCount();
+        List<BookMstDto> bookMstList = this.bookMstService.findAvailableWithStockCount();//保存されたデータを書籍テーブルから取得。リストで受け取っている
         
-        model.addAttribute("bookMstList", bookMstList);
+        model.addAttribute("bookMstList", bookMstList);//htmlに渡すmodelはhtmlへ
 
         return "book/index";
     }
@@ -74,23 +74,25 @@ public class BookController {
                 errTitleList.add("書籍名は必須です");
                 errtitleFlg = true;
                 }
+             else if( titleExist != null && titleExist.length()>255){
+                    errTitleList.add("書籍名は255文字以内で入力してください");
+                    errtitleFlg = true;
+                    }
              if(StringUtils.isEmpty(IsbnExist)){
                 errIsbnList.add("ISBNは必須です");
                 errIsbnFlg = true;
                 }
-             else if( titleExist != null && titleExist.length()>256){
-                errTitleList.add("書籍名は255文字以内で入力してください");
-                errtitleFlg = true;
-                }
-          
-             else if(IsbnExist  != null && IsbnExist.length() != 13){
+            
+             else {if(IsbnExist  != null && IsbnExist.length() != 13){
                 errIsbnList.add("ISBNは13文字で入力してください");
                 errIsbnFlg = true;
+                }  
+                if(IsbnExist != null && !IsbnExist.matches("^[0-9]+$")){
+                    errIsbnList.add("ISBNの形式が不正です");
+                    errIsbnFlg = true;
+                    } 
                 }
-             else if(IsbnExist != null && !IsbnExist.matches("^[0-9]+$")){
-                errIsbnList.add("ISBNの形式が不正です");
-                errIsbnFlg = true;
-                }
+            
             
             BookMst selectCount = null;
              if(errIsbnList.isEmpty()){
@@ -110,7 +112,7 @@ public class BookController {
 
             bookMstService.save(bookMstDto);
 
-            return "redirect:/book/index";
+            return "redirect:/book/index";//if処理を反映して返している
          }
         catch (Exception e) {
             log.error(e.getMessage());
