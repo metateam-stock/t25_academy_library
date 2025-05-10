@@ -49,12 +49,13 @@ public class RegisterController {
 
             boolean errEmailFlg = false;
             boolean errEmpIdFlg = false;
+            //↓メアドと社員番号がNULLじゃないことを確認、重複チェックへ
             Account emailExist = this.accountService.selectByEmail(accountDto.getEmail());
             Account employeeExist = this.accountService.selectByEmployeeId(accountDto.getEmployeeId());
 
             if(emailExist != null){
                 result.rejectValue("email", "error.value", "登録済みのメールアドレスです");
-                errEmailFlg = true;
+                errEmailFlg = true; //エラーが一つでもあるとtrueになる
             }
             if(employeeExist != null){
                 result.rejectValue("employeeId", "error.value", "登録済みの社員番号です");
@@ -71,6 +72,8 @@ public class RegisterController {
             log.error(e.getMessage());
 
             ra.addFlashAttribute("accountDto", accountDto);
+
+            //今回はこの書き方ではなくIF文で！！
             ra.addFlashAttribute("org.springframework.validation.BindingResult.accountDto", result);
 
             return "redirect:register";

@@ -5,12 +5,15 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import io.micrometer.common.util.StringUtils;
+import jp.co.metateam.library.model.Account;
+import jp.co.metateam.library.model.AccountDto;
 import jp.co.metateam.library.model.BookMst;
 import jp.co.metateam.library.model.BookMstDto;
 import jp.co.metateam.library.repository.BookMstRepository;
@@ -25,6 +28,11 @@ public class BookMstService {
         this.bookMstRepository = bookMstRepository;
     }
     
+    //自分で足した
+    public BookMst selectByIsbn(String isbn) {
+        return this.bookMstRepository.selectByIsbn(isbn);
+    }
+
     public List<BookMstDto> findAvailableWithStockCount() {
         List<BookMst> books = this.bookMstRepository.findLimitedBook();
         List<BookMstDto> bookMstDtoList = new ArrayList<BookMstDto>();
@@ -41,6 +49,28 @@ public class BookMstService {
         }
 
         return bookMstDtoList;
+    }
+
+    @Transactional
+    public void save(BookMstDto bookMstDtoDto) {
+        try {
+            // bookMstDtoからBookMstへの変換
+            BookMst bookMst = new BookMst();
+
+            bookMst.setTitle(bookMstDtoDto.getTitle());
+            bookMst.setIsbn(bookMstDtoDto.getIsbn());
+
+            //bookMst.setName(bookMstDtoDto.getName());
+           // bookMst.setEmployeeId(bookMstDtoDto.getEmployeeId());
+            //bookMst.setAuthorizationType(bookMstDtoDto.getAuthorizationType());
+            //bookMst.setPassword(this.passwordEncoder.encode(accountDto.getPassword())); // パスワードをハッシュ化してから保存
+            //bookMst.setEmail(accountDto.getEmail());
+
+            // データベースへの保存
+            this.bookMstRepository.save(bookMst);
+        } catch (Exception e) {
+            throw e;
+        }
     }
     
 }
