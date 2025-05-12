@@ -53,6 +53,40 @@ public class BookController {
         return "book/add";
     }
 
+   @GetMapping("/book/edit/{id}")
+    public String editBook(@PathVariable("id") Long id, Model model) {
+        // 書籍IDでデータを検索
+        BookMst book = bookMstService.selectById(id);
+
+    // データが存在しない場合、エラーメッセージを表示して戻す
+    if (book == null) {
+        model.addAttribute("errorMessage", "指定された書籍は存在しません");
+        return "book/index"; 
+    }
+
+    // データが存在する場合、編集用のDTOを作成
+    BookMstDto dto = new BookMstDto();
+    dto.setId(book.getId());
+    dto.setIsbn(book.getIsbn());
+    dto.setTitle(book.getTitle());
+
+    model.addAttribute("bookMstDto", dto);
+    return "book/edit";
+}
+
+    @GetMapping("/book/delete/{id}")
+    public String deleteBook(@PathVariable("id") Long id, RedirectAttributes ra) {
+        try {
+            bookMstService.deleteById(id);
+            ra.addFlashAttribute("message", "書籍を削除しました");
+        } catch (Exception e) {
+            ra.addFlashAttribute("message", "書籍の削除に失敗しました");
+        }
+        return "redirect:/book/index";
+    }
+
+
+
 
     @PostMapping("/book/add")
     public String register(@Valid BookMstDto bookMstDto, BindingResult result, RedirectAttributes ra, Model model) {
@@ -83,4 +117,42 @@ public class BookController {
             return "book/add";    
         }
     } 
+   @PostMapping("/book/update")
+    public String updateBook(
+        @Valid @ModelAttribute("bookMstDto") BookMstDto bookMstDto,
+        BindingResult result,
+        Model model,
+        RedirectAttributes ra
+    ) {
+    BookMst existing = bookMstService.selectById(bookMstDto.getId());
+
+    // 入力値と既存データが同じならリダイレクト（変更なし）
+    boolean isSame = existing.getIsbn().equals(bookMstDto.getIsbn())
+                  && existing.getTitle().equals(bookMstDto.getTitle());
+    if (isSame) {
+        return "redirect:/book/index"; // メッセージなし
+    }
+
+    // ISBNの重複チェック（ISBNが変更された場合のみ）
+    if (!existing.getIsbn().equals(bookMstDto.getIsbn())) {
+        BookMst other = bookMstService.selectByIsbn(bookMstDto.getIsbn());
+        if (other != null) {
+            result.rejectValue("isbn", "error.value", "このISBNはすでに使われています");
+        }
+    }
+
+    // バリデーションエラーがあれば戻る
+    if (result.hasErrors()) {
+        model.addAttribute("bookMstDto", bookMstDto);
+        return "book/edit";
+    }
+
+    // 更新処理
+    existing.setIsbn(bookMstDto.getIsbn());
+    existing.setTitle(bookMstDto.getTitle());
+    bookMstService.update(existing);
+
+    ra.addFlashAttribute("message", "書籍情報が更新されました");
+    return "redirect:/book/index";
+}
 }
