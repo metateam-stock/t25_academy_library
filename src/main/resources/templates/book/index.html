@@ -13,9 +13,13 @@
             <div class="inner_contens">
                 <div class="page_title">書籍一覧</div>
 
-                <dr>
+                <div th:if="${successMessage}" class="success_msg">
+                    <p th:text="${successMessage}"></p>
+                </div>
+                
+
+
                     <a th:href="@{/book/add}"> <button>書籍登録</button></a>
-                </dr>
                 <table class ="books_table">
                     <thead>
                         <tr>
@@ -25,7 +29,21 @@
                     </thead>
                     <tbody>
                         <tr th:each="book : ${bookMstList}">
-                            <td th:text="${book.title}">書籍タイトル</td>
+                            <td>
+                                
+                                <!-- 編集ボタン -->
+                                <a th:href="@{/book/edit/{id}(id=${book.id})}" class="edit_btn" title="編集">
+                                    <img th:src="@{/images/icons/edit.png}" alt="編集" style="width:20px; height:20px; margin-left:8px;" />
+                                </a>
+                            
+                                <!-- 削除ボタン -->
+                                <a th:href="@{'/book/delete'}" title="削除" onclick="return confirm('本当に削除しますか？')">
+                                    <img th:src="@{/images/icons/trash.png}" alt="削除" style="width:20px; height:20px; margin-left:4px;" />
+                                </a>
+
+                                <span th:text="${book.title}">書籍タイトル</span>
+                            </td>
+                            
                             <td th:text="${book.isbn}">ISBNコード</td>
                         </tr>
                     </tbody>
