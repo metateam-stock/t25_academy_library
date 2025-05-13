@@ -47,6 +47,7 @@ public class BookMstService {
     public BookMst selectByIsbn(String isbn) {
         return this.bookMstRepository.selectByIsbn(isbn);
     }
+
     @Transactional
     public void save(BookMstDto bookMstDto) {
         try {
@@ -63,7 +64,21 @@ public class BookMstService {
             throw e;
         }
     }
+    
+    public BookMstDto selectById(Long id) {
+    BookMst book = bookMstRepository.selectById(id).orElse(null);
+    if (book == null) return null;
+    BookMstDto dto = new BookMstDto();               // DTO を作成
+    dto.setId(book.getId());                         // 値をコピー
+    dto.setTitle(book.getTitle());
+    dto.setIsbn(book.getIsbn());
+
+
+    return dto;                                      // DTO を返す
+    }
+
 }
+
 
 
 
