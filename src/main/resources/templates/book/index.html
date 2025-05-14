@@ -12,10 +12,7 @@
             <div th:replace="~{common :: header}"></div>
             <div class="inner_contens">
                 <div class="page_title">書籍一覧</div>
-
-                <div th:if="${successMessage}" class="success_msg">
-                    <p th:text="${successMessage}"></p>
-                </div>
+                 </div>
                 
 
 
@@ -54,3 +51,28 @@
     </div>
     <div th:replace="~{common :: footer}"></div>
 </body>
+<!-- 成功メッセージ表示用 -->
+<div id="flash-message" th:if="${successMessage}" th:attr="data-message=${successMessage}"></div>
+<!-- エラーメッセージ表示用 -->
+<div id="error-message" th:if="${errorMessage}" th:attr="data-message=${errorMessage}"></div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const flash = document.getElementById("flash-message");
+        const msg = flash?.dataset.message;
+        if (msg) {
+            alert(msg);
+            flash.remove(); // 表示後に削除して再表示を防止
+        }
+        
+        const error = document.getElementById("error-message");
+const errorMsg = error?.dataset.message;
+if (errorMsg) {
+    alert(errorMsg);
+    error.remove(); // 再表示防止
+}
+
+    });
+</script>
+

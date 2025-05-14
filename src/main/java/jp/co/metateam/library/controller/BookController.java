@@ -25,6 +25,7 @@ import lombok.extern.log4j.Log4j2;
 import java.util.Objects;
 
 
+
 /**
  * 書籍関連クラス
  */
@@ -58,14 +59,14 @@ public class BookController {
         return "book/add";
     }
 
-    @GetMapping("/book/edit")
-    public String edit(Model model) {
-        if (!model.containsAttribute("bookMstDto")) {
-            model.addAttribute("bookMstDto", new BookMstDto());
-        }
+    // @GetMapping("/book/edit")
+    // public String edit(Model model) {
+    //     if (!model.containsAttribute("bookMstDto")) {
+    //         model.addAttribute("bookMstDto", new BookMstDto());
+    //     }
 
-        return "book/edit";
-    }
+    //     return "book/edit";
+    // }
 
  
 
@@ -125,10 +126,11 @@ public class BookController {
 
     // 書籍編集
     @GetMapping("/book/edit/{id}")
-    public String edit(@PathVariable Long id, Model model) {
+    public String edit(@PathVariable Long id, Model model,RedirectAttributes redirectAttributes) {
     BookMstDto bookMstDto = bookMstService.findById(id);
     if (bookMstDto == null) {
         // IDが見つからない場合は一覧へリダイレクト
+        redirectAttributes.addFlashAttribute("errorMessage", "データが存在しません");
         return "redirect:/book/index";
     }
     model.addAttribute("bookMstDto", bookMstDto);
@@ -143,8 +145,6 @@ public class BookController {
     public String update(@ModelAttribute BookMstDto bookMstDto, BindingResult result, RedirectAttributes ra) {
        try {
            boolean hasError = false;
-           
-           
 
         //    long NyuryokusareteitaId = bookMstDto.getId();
         //    BookMstDto Sagaitaiyatu = bookMstService.findById(NyuryokusareteitaId);
@@ -162,14 +162,9 @@ public class BookController {
         boolean isIsbnChanged = !Objects.equals(original.getIsbn(), bookMstDto.getIsbn());
 
         if (!isTitleChanged && !isIsbnChanged) {
-            ra.addFlashAttribute("infoMessage", "変更がされていません");
+            ra.addFlashAttribute("infoMessage", "変更点がありません");
             return "redirect:/book/edit/" + bookMstDto.getId();
         }
-
-
-
-
-            
             
 
            if (bookMstDto.getTitle() == null || bookMstDto.getTitle().trim().isEmpty()) {
