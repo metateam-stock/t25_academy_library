@@ -154,55 +154,59 @@ public class BookController {
 
            BookMstDto original = bookMstService.findById(bookMstDto.getId());
            if (original == null) {
-               result.reject("notfound", "該当する書籍が見つかりませんでした");
-               hasError = true;
+            ra.addFlashAttribute("errorMessage", "該当する書籍が削除されているため、編集できません。");
+            return "redirect:/book/index";
            }
 
            boolean isTitleChanged = !Objects.equals(original.getTitle(), bookMstDto.getTitle());
         boolean isIsbnChanged = !Objects.equals(original.getIsbn(), bookMstDto.getIsbn());
 
-        if (!isTitleChanged && !isIsbnChanged) {
-            ra.addFlashAttribute("infoMessage", "変更点がありません");
-            return "redirect:/book/edit/" + bookMstDto.getId();
-        }
-            
+           if (!isTitleChanged && !isIsbnChanged) {
+               ra.addFlashAttribute("infoMessage", "変更点がありません");
+               return "redirect:/book/edit/" + bookMstDto.getId();
+           }
 
-           if (bookMstDto.getTitle() == null || bookMstDto.getTitle().trim().isEmpty()) {
-               result.rejectValue("title", "error.title.required", "書籍名は必須です");
-               hasError = true;
-           }
-           
-           if (bookMstDto.getTitle() != null && bookMstDto.getTitle().length() > 255) {
-               result.rejectValue("title", "error.title.length", "書籍名は255文字以内で入力してください");
-               hasError = true;
-           }
+                   if (isTitleChanged) {
+            if (bookMstDto.getTitle() == null || bookMstDto.getTitle().trim().isEmpty()) {
+                result.rejectValue("title", "error.title.required", "書籍名は必須です");
+                hasError = true;
+            } else if (bookMstDto.getTitle().length() > 255) {
+                result.rejectValue("title", "error.title.length", "書籍名は255文字以内で入力してください");
+                hasError = true;
+            }
+        }
+
 
         //    ISBNの変更があるかどうかのバリデーション
         //    if (bookMstService.findById(bookMstDto.getId()).getIsbn().equals (bookMstDto.getIsbn())){
             // hasError = true;
         //    }
 
-       
-           if (bookMstDto.getIsbn() == null || bookMstDto.getIsbn().trim().isEmpty()) {
-               result.rejectValue("isbn", "error.isbn.required", "ISBNは必須です");
-               hasError = true;
-           }
-           
-           if (bookMstDto.getIsbn() != null && !bookMstDto.getIsbn().isEmpty() && bookMstDto.getIsbn().length() != 13) {
-               result.rejectValue("isbn", "error.isbn.length", "ISBNは13桁で入力してください");
-               hasError = true;
-           }
-           
-           if (bookMstDto.getIsbn() != null && !bookMstDto.getIsbn().isEmpty() && !bookMstDto.getIsbn().matches("^[0-9]+$")) {
-               result.rejectValue("isbn", "error.isbn.hankaku", "ISBNは半角で入力してください");
-               hasError = true;
-           }
-
-           if (bookMstService.existsByIsbnAndNotId("isbn", bookMstDto.getId())) {
-            result.rejectValue("isbn", "error.isbn.duplicate", "このISBNは既に登録されています");
-            hasError = true;
+        if (isIsbnChanged) {
+            String isbn = bookMstDto.getIsbn();
+        
+            if (isbn == null || isbn.trim().isEmpty()) {
+                result.rejectValue("isbn", "error.isbn.required", "ISBNは必須です");
+                hasError = true;
+            } else {
+                if (isbn.length() != 13) {
+                    result.rejectValue("isbn", "error.isbn.length", "ISBNは13桁で入力してください");
+                    hasError = true;
+                }
+        
+                if (!isbn.matches("^[0-9]+$")) {
+                    result.rejectValue("isbn", "error.isbn.hankaku", "ISBNは半角で入力してください");
+                    hasError = true;
+                }
+        
+                if (bookMstService.existsByIsbnAndNotId(isbn, bookMstDto.getId())) {
+                    result.rejectValue("isbn", "error.isbn.duplicate", "このISBNは既に登録されています");
+                    hasError = true;
+                }
+            }
         }
-  
+        
+
            if (hasError) {
                throw new Exception("バリデーションエラー");
            }

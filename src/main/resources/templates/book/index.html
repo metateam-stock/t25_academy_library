@@ -50,11 +50,12 @@
         </div>
     </div>
     <div th:replace="~{common :: footer}"></div>
-</body>
-<!-- 成功メッセージ表示用 -->
+    <!-- 成功メッセージ表示用 -->
 <div id="flash-message" th:if="${successMessage}" th:attr="data-message=${successMessage}"></div>
 <!-- エラーメッセージ表示用 -->
 <div id="error-message" th:if="${errorMessage}" th:attr="data-message=${errorMessage}"></div>
+</body>
+
 
 
 <script>
