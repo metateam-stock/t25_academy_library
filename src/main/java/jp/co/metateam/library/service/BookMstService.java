@@ -1,5 +1,7 @@
 package jp.co.metateam.library.service;
 
+import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -96,6 +98,38 @@ public void update(BookMstDto bookMstDto) {
 public boolean existsByIsbnAndNotId(String isbn, Long id) {
     Optional<BookMst> book = bookMstRepository.findByIsbn(isbn);
     return book.isPresent() && !book.get().getId().equals(id);
+}
+
+@Transactional
+public boolean deleteBook(Long id) {
+    Optional<BookMst> optional = bookMstRepository.findById(id);
+    if (optional.isPresent()) {
+        BookMst book = optional.get();
+        if (book.getDeletedFlag() == 1) {
+            return false; // 既に削除されている
+        }
+        book.setDeletedFlag(1);
+        book.setDeletedAt(Timestamp.valueOf(LocalDateTime.now()));
+        bookMstRepository.save(book);
+        return true;
+    }
+    return false;
+}
+
+public List<BookMstDto> findLimitedBooksOnlyNotDeleted() {
+    // 削除されていない書籍だけ取得するように修正
+    List<BookMst> books = this.bookMstRepository.findLimitedBooksOnlyNotDeleted(); // ←ここを変更
+    List<BookMstDto> bookMstDtoList = new ArrayList<>();
+
+    for (BookMst book : books) {
+        BookMstDto bookMstDto = new BookMstDto();
+        bookMstDto.setId(book.getId());
+        bookMstDto.setIsbn(book.getIsbn());
+        bookMstDto.setTitle(book.getTitle());
+        bookMstDtoList.add(bookMstDto);
+    }
+
+    return bookMstDtoList;
 }
 
 

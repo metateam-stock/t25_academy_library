@@ -42,8 +42,8 @@ public class BookController {
 
     @GetMapping("/book/index")
     public String index(Model model) {
-        // 書籍を全件取得
-        List<BookMstDto> bookMstList = this.bookMstService.findAvailableWithStockCount();
+        // 削除済みを除外して取得
+        List<BookMstDto> bookMstList = this.bookMstService.findLimitedBooksOnlyNotDeleted();
         
         model.addAttribute("bookMstList", bookMstList);
 
@@ -225,7 +225,19 @@ ra.addFlashAttribute("successMessage", "書籍の変更が完了しました");
        }
     }
 
+    // 書籍削除
+    @GetMapping("/book/delete/{id}")
+    public String delete(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        boolean deleted = bookMstService.deleteBook(id);
     
+        if (deleted) {
+            redirectAttributes.addFlashAttribute("deleteMessage", "削除が完了しました");
+        } else {
+            redirectAttributes.addFlashAttribute("deleteMessage", "この書籍は既に削除されています");
+        }
+    
+        return "redirect:/book/index";
+    }
     
 
 }
