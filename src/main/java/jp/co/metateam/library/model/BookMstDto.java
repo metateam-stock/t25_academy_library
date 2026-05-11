@@ -13,7 +13,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class BookMstDto {
-    
+    @NotEmpty(message = "パスワードは必須です")
+    @Size(min = 5, message="パスワードは5文字以上で入力してください")
     private Long id; 
     
     private String isbn;

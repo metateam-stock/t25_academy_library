@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
+import jp.co.metateam.library.model.Account;
+import jp.co.metateam.library.model.AccountDto;
 import jp.co.metateam.library.model.BookMst;
 import jp.co.metateam.library.model.BookMstDto;
 import jp.co.metateam.library.service.BookMstService;
@@ -51,4 +53,37 @@ public class BookController {
         return "book/add";
     }
     
+
+
+
+ @PostMapping("/book/add")
+    public String add(@Valid @ModelAttribute BookMstDto bookMstDto, BindingResult result, RedirectAttributes ra) {
+        try {
+
+boolean errIsbnFlg = false;
+BookMst IsbnExist = this.bookMstService.selectByIsbn(bookMstDto.getIsbn());
+
+            if(IsbnExist != null){
+                result.rejectValue("ISBN", "error.value", "登録済みのISBNです");
+                errIsbnFlg = true;
+            }
+           
+            
+            if (errIsbnFlg) {
+                throw new Exception("ISBN already exists.");
+            }
+
+            this.bookMstService.save(bookMstDto);
+
+            return "/book/index";
+        } catch (Exception e) {
+            log.error(e.getMessage());
+
+            ra.addFlashAttribute("BookMstDto","bookMstDto");
+            ra.addFlashAttribute("org.springframework.validation.BindingResult.BookMstDto", result);
+
+            return "redirect:/book/index";
+        }
+    }
 }
+    
