@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,5 +51,17 @@ public class BookController {
 
         return "book/add";
     }
+
+@PostMapping("/book/add")//登録処理
+    public String add(BookMstDto bookMstDto
+    ){
+        this.bookMstService.insert(bookMstDto);//DBに登録お願いする
+        return "redirect:/book/index";//一覧に戻る（書籍画面）
+ 
+    }
+    
+    
+
+    
     
 }

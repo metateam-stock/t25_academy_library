@@ -42,8 +42,28 @@ public class BookMstService {
 
         return bookMstDtoList;
     }
+         
+    @Transactional
+    public void insert(BookMstDto dto) {
+        
+            // AccountDtoからAccountへの変換
+            BookMst book = new BookMst();
+
+            book.setTitle(dto.getTitle());
+            book.setIsbn(dto.getIsbn());
+            
+            // データベースへの保存
+            bookMstRepository.save(book);
+        
+    }
+   
+        
+
+}   
     
-}
+    
+    
+
 
 
 
