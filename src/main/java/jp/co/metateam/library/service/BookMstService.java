@@ -1,5 +1,7 @@
 package jp.co.metateam.library.service;
 
+import java.security.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +18,7 @@ import jp.co.metateam.library.model.BookMstDto;
 import jp.co.metateam.library.repository.BookMstRepository;
 
 @Service
-public class BookMstService {
+public class BookMstService{
 
     private final BookMstRepository bookMstRepository;
     
@@ -24,7 +26,8 @@ public class BookMstService {
     public BookMstService(BookMstRepository bookMstRepository){
         this.bookMstRepository = bookMstRepository;
     }
-    
+ 
+
     public List<BookMstDto> findAvailableWithStockCount() {
         List<BookMst> books = this.bookMstRepository.findLimitedBook();
         List<BookMstDto> bookMstDtoList = new ArrayList<BookMstDto>();
@@ -42,7 +45,22 @@ public class BookMstService {
 
         return bookMstDtoList;
     }
+
+    @Transactional
+    public void save(BookMstDto bookDto) {
     
+       BookMst book = new BookMst();
+
+       book.setIsbn(bookDto.getIsbn());
+       book.setTitle(bookDto.getTitle());
+
+
+       this.bookMstRepository.save(book);
+     
+       
+     }
+    
+
 }
 
 

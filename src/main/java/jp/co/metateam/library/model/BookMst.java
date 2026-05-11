@@ -1,6 +1,7 @@
 package jp.co.metateam.library.model;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -23,6 +24,7 @@ public class BookMst {
     @Column(name = "id")
     private Long id;
 
+
     /** ISBN */
     @Column(name = "isbn", nullable = false, unique = true)
     private String isbn;
@@ -31,9 +33,10 @@ public class BookMst {
     @Column(name = "title", nullable = false)
     private String title;
 
-    /** 削除日時 */
+    /** 日時 */
     @Column(name = "deleted_at")
     private Timestamp deletedAt;
+
 
     /** Getters */
 
@@ -53,6 +56,7 @@ public class BookMst {
         return this.deletedAt;
     }
 
+
     /** Setters */
 
     public void setId(Long id) {
@@ -70,4 +74,6 @@ public class BookMst {
     public void setDeletedAt(Timestamp deletedAt) {
         this.deletedAt = deletedAt;
     }
+   
+
 }
