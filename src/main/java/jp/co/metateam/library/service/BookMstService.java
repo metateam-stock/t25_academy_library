@@ -43,6 +43,23 @@ public class BookMstService {
         return bookMstDtoList;
     }
     
+
+
+ @Transactional
+    public void save(BookMstDto bookMstDto) {
+        try {
+            // BookMstDtoからBookMstへの変換
+            BookMst bookMst = new BookMst();
+            bookMst.setId(bookMstDto.getId());
+            bookMst.setTitle(bookMstDto.getTitle());
+            bookMst.setIsbn(bookMstDto.getIsbn());
+
+            // データベースへの保存
+            this.bookMstRepository.save(bookMst);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }
 
 
