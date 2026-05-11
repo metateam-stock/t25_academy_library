@@ -24,7 +24,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Controller
 public class BookController {
-    
+
     private final BookMstService bookMstService;
 
     @Autowired
@@ -36,7 +36,7 @@ public class BookController {
     public String index(Model model) {
         // 書籍を全件取得
         List<BookMstDto> bookMstList = this.bookMstService.findAvailableWithStockCount();
-        
+
         model.addAttribute("bookMstList", bookMstList);
 
         return "book/index";
@@ -50,5 +50,18 @@ public class BookController {
 
         return "book/add";
     }
-    
+    //ここから
+      @PostMapping("/book/add")//このURL内に保存ボタンが押されたら実行 Dtoは入力データ
+    public String book(@Valid @ModelAttribute BookMstDto bookMstDto, BindingResult result, RedirectAttributes ra) {
+    //（）内は受け取るデータ
+    //Vallidで入力チェック、ModelAttribute：画面入力値を自動的にDTO（BookMstDto bookMstDto）に入れる、 BindingResult result：バリデーションチェックしたものをresultに保存する、 RedirectAttributes ra：リダイレクトしたデータの受け渡し
+    // 画面入力した際の
+
+        bookMstService.save(bookMstDto);
+        return "redirect:/book/index";
+        
+    }
+
+    //ここまで
 }
+    
