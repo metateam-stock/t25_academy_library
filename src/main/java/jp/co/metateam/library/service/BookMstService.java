@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import io.micrometer.common.util.StringUtils;
+import jp.co.metateam.library.model.Account;
+import jp.co.metateam.library.model.AccountDto;
 import jp.co.metateam.library.model.BookMst;
 import jp.co.metateam.library.model.BookMstDto;
 import jp.co.metateam.library.repository.BookMstRepository;
@@ -42,7 +44,27 @@ public class BookMstService {
 
         return bookMstDtoList;
     }
+
+    public void addBook(BookMstDto dto){
+        //登録処理（ServiceにないメソッドはControllerでかいてもエラー表示になる）
+    }
     
+
+    public void save(BookMstDto bookMstDto) {
+        try {
+            // BookMstDtoからBookへの変換
+            BookMst book = new BookMst();
+
+            book.setTitle(bookMstDto.getTitle());
+            book.setIsbn(bookMstDto.getIsbn());
+          
+
+            // データベースへの保存
+            this.bookMstRepository.save(book);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }
 
 
