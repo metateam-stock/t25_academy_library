@@ -37,6 +37,13 @@ public class BookMst {
     @Column(name = "deleted_at")
     private Timestamp deletedAt;
 
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+
 
     /** Getters */
 
@@ -55,6 +62,15 @@ public class BookMst {
     public Timestamp getDeletedAt() {
         return this.deletedAt;
     }
+
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+    }
+    
+    public LocalDateTime getUpdatedAt() {
+        return this.updatedAt;
+    }
+
 
 
     /** Setters */
@@ -75,5 +91,13 @@ public class BookMst {
         this.deletedAt = deletedAt;
     }
    
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdateAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
 
 }

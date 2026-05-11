@@ -1,6 +1,5 @@
 package jp.co.metateam.library.service;
 
-import java.security.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +52,10 @@ public class BookMstService{
 
        book.setIsbn(bookDto.getIsbn());
        book.setTitle(bookDto.getTitle());
+       book.setCreatedAt(LocalDateTime.now());
+       book.setUpdateAt(LocalDateTime.now());
 
-
+       
        this.bookMstRepository.save(book);
      
        
