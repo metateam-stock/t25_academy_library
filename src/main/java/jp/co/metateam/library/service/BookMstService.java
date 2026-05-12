@@ -45,7 +45,7 @@ public class BookMstService {
 
     @Transactional
     public void
-    register(BookMstDto dto){
+    register(BookMstDto dto){ //controllerから書籍登録処理を受け取るメソッド
     
         BookMst entity = new BookMst();
         //Entityを作成
@@ -53,13 +53,15 @@ public class BookMstService {
         entity.setTitle(dto.getTitle());
 
         entity.setIsbn(dto.getIsbn());
+        //dtoをentityに変換
+
 
         bookMstRepository.save(entity);
-        //DBに保存
-
+        //DB保存をrepositoryに依頼
 
     }
 
+    
 }
 
 

@@ -2,8 +2,14 @@ package jp.co.metateam.library.model;
 
 import java.security.Timestamp;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank; //NotEmptyは文字列必須チェックに向かない
+//場所でNotBlankというクラスを使う
+
 import jakarta.validation.constraints.Size;
+
+import jakarta.validation.constraints.Pattern;
+//NotBlankが必須チェック、Sizeが文字数、Patternが半角数字
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,12 +21,11 @@ import lombok.Setter;
 public class BookMstDto {
     
     private Long id; 
-    
-    private String isbn;
 
     private String title;
-    
+
     private Timestamp deletedAt;
 
     private BookMst bookMst;
+
 }

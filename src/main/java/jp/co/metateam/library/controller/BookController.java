@@ -1,5 +1,6 @@
 package jp.co.metateam.library.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class BookController {
         this.bookMstService = bookMstService;
     }
 
-    @GetMapping("/book/index")
+    @GetMapping("/book/index") 
     public String index(Model model) {
         // 書籍を全件取得
         List<BookMstDto> bookMstList = this.bookMstService.findAvailableWithStockCount();
@@ -51,9 +52,9 @@ public class BookController {
         return "book/add";
     }
 
-    @PostMapping("/book/add") 
+    @PostMapping("/book/add") //　/book/addというリクエストが来たら以下のメソッドを実行する。
     public String save(@ModelAttribute BookMstDto bookMstDto){
-        
+
          bookMstService.register(bookMstDto); 
         //書籍登録処理をserviceに依頼
 
@@ -61,5 +62,4 @@ public class BookController {
 
      }
 
-
-}
+    
