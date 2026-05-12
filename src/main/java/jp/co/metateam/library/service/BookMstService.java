@@ -15,6 +15,9 @@ import jp.co.metateam.library.model.BookMst;
 import jp.co.metateam.library.model.BookMstDto;
 import jp.co.metateam.library.repository.BookMstRepository;
 
+//追加したimort
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
 public class BookMstService {
 
@@ -41,6 +44,20 @@ public class BookMstService {
         }
 
         return bookMstDtoList;
+    }
+
+    public Optional<BookMst> selectByIsbn(String isbn){
+        return bookMstRepository.selectByIsbn(isbn);
+    }
+
+    //追加したメソッド
+    public void save(BookMstDto bookMstDto){
+        BookMst bookMst = new  BookMst();
+
+        bookMst.setIsbn(bookMstDto.getIsbn());
+        bookMst.setTitle(bookMstDto.getTitle());
+
+        bookMstRepository.save(bookMst);
     }
     
 }
