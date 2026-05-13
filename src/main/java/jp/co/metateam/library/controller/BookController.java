@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,11 +25,11 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Controller
 public class BookController {
-    
+
     private final BookMstService bookMstService;
 
     @Autowired
-    public BookController(BookMstService bookMstService){
+    public BookController(BookMstService bookMstService) {
         this.bookMstService = bookMstService;
     }
 
@@ -36,7 +37,7 @@ public class BookController {
     public String index(Model model) {
         // 書籍を全件取得
         List<BookMstDto> bookMstList = this.bookMstService.findAvailableWithStockCount();
-        
+
         model.addAttribute("bookMstList", bookMstList);
 
         return "book/index";
@@ -50,5 +51,12 @@ public class BookController {
 
         return "book/add";
     }
-    
+
+    @PostMapping("/book/add") // 登録処理
+    public String add(BookMstDto bookMstDto) {
+        this.bookMstService.insert(bookMstDto);
+        // DBに登録お願いする
+        return "redirect:/book/index";
+        // 一覧に戻る（書籍画面）
+    }
 }
