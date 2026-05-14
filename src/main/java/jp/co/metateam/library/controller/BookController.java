@@ -1,5 +1,6 @@
 package jp.co.metateam.library.controller;
 
+import java.security.Provider.Service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import jakarta.validation.Valid;
+import jp.co.metateam.library.model.Account;
+import jp.co.metateam.library.model.AccountDto;
 import jp.co.metateam.library.model.BookMst;
 import jp.co.metateam.library.model.BookMstDto;
 import jp.co.metateam.library.service.BookMstService;
@@ -32,23 +35,32 @@ public class BookController {
         this.bookMstService = bookMstService;
     }
 
-    @GetMapping("/book/index")
+    @GetMapping("/book/index") ///book/indexにデータ取得の通信が来た時にする処理（一覧画面を開いたとき）
     public String index(Model model) {
         // 書籍を全件取得
         List<BookMstDto> bookMstList = this.bookMstService.findAvailableWithStockCount();
         
         model.addAttribute("bookMstList", bookMstList);
 
-        return "book/index";
+        return "book/index";  //　book/index：View（コントローラが「この画面見せて」って指定してる名前）、/book/index：URL、index.html：実体
     }
 
-    @GetMapping("/book/add")
+    @GetMapping("/book/add") //書籍登録画面を開く
     public String add(Model model) {
         if (!model.containsAttribute("bookMstDto")) {
             model.addAttribute("bookMstDto", new BookMstDto());
         }
 
-        return "book/add";
+        return "book/add"; //add.htmlを表示して
+    }
+
+    @PostMapping("/book/add")//add.htmlにPostと定義
+      public String book( @ModelAttribute BookMstDto bookMstDto) {
+           
+            //DB登録
+            bookMstService.save(bookMstDto);  //Serviceの部分でbookMstDtoの情報をデータベースに保存
+
+            return "book/index";  // 上の処理が終わったら、book/index（書籍一覧）に画面遷移
     }
     
 }
