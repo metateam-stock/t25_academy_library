@@ -24,19 +24,18 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @Controller
 public class BookController {
-    
+
     private final BookMstService bookMstService;
 
     @Autowired
-    public BookController(BookMstService bookMstService){
+    public BookController(BookMstService bookMstService) {
         this.bookMstService = bookMstService;
     }
-
+   
     @GetMapping("/book/index")
     public String index(Model model) {
         // 書籍を全件取得
         List<BookMstDto> bookMstList = this.bookMstService.findAvailableWithStockCount();
-        
         model.addAttribute("bookMstList", bookMstList);
 
         return "book/index";
@@ -47,8 +46,15 @@ public class BookController {
         if (!model.containsAttribute("bookMstDto")) {
             model.addAttribute("bookMstDto", new BookMstDto());
         }
-
         return "book/add";
     }
+
+    @PostMapping("/book/add")
+    public String addbook(@ModelAttribute BookMstDto bookMstDto){
+
+         bookMstService.save(bookMstDto);
+
+        return "redirect:/book/index";
     
+    }
 }
