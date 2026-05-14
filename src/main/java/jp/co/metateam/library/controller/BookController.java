@@ -63,38 +63,3 @@ public class BookController {
         bookMstService.save(bookMstDto);
         return "redirect:/book/index";
     }
-
-     @PostMapping("/register")
-    public String register(@Valid @ModelAttribute BookDto bookDto, BindingResult result, RedirectAttributes ra) {
-        try {
-
-            boolean errTitleFlg = false;
-            boolean errIsbnFlg = false;
-            Account emailExist = this.accountService.selectByEmail(accountDto.getEmail());
-            Account employeeExist = this.accountService.selectByEmployeeId(accountDto.getEmployeeId());
-
-            if(emailExist != null){
-                result.rejectValue("email", "error.value", "登録済みのメールアドレスです");
-                errEmailFlg = true;
-            }
-            if(employeeExist != null){
-                result.rejectValue("employeeId", "error.value", "登録済みの社員番号です");
-                errEmpIdFlg = true;
-            }
-            if (errEmailFlg || errEmpIdFlg) {
-                throw new Exception("Account already exists.");
-            }
-
-            accountService.save(accountDto);
-
-            return "redirect:login";
-        } catch (Exception e) {
-            log.error(e.getMessage());
-
-            ra.addFlashAttribute("accountDto", accountDto);
-            ra.addFlashAttribute("org.springframework.validation.BindingResult.accountDto", result);
-
-            return "redirect:register";
-        }
-}
-
