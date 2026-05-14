@@ -46,25 +46,21 @@ public class BookMstService {
     }
 
     public void addBook(BookMstDto dto){
-        //登録処理（ServiceにないメソッドはControllerでかいてもエラー表示になる）
+        //登録処理
     }
     
-
+    @Transactional
     public void save(BookMstDto bookMstDto) {
-        try {
             // BookMstDtoからBookへの変換
             BookMst book = new BookMst();
 
             book.setTitle(bookMstDto.getTitle());
             book.setIsbn(bookMstDto.getIsbn());
-          
 
             // データベースへの保存
-            this.bookMstRepository.save(book);
-        } catch (Exception e) {
-            throw e;
+            bookMstRepository.save(book);
+        
         }
-    }
 }
 
 

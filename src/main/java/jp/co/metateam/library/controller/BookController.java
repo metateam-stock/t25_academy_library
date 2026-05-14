@@ -54,38 +54,13 @@ public class BookController {
         return "book/add"; //add.htmlを表示して
     }
 
-     @PostMapping("/book/add")
-    public String book(@Valid @ModelAttribute BookMstDto bookMstDto, BindingResult result, RedirectAttributes ra) {
-       
+    @PostMapping("/book/add")//add.htmlにPostと定義されている
+      public String book( @ModelAttribute BookMstDto bookMstDto) {
+           
+            //DB登録
+            bookMstService.save(bookMstDto);    //Serviceの部分でbookMstDtoの情報をデータベースに保存,insertでもよし
 
-            // boolean errTitle = false;
-            // boolean errIsbn = false;
-        
-            bookMstService.save(bookMstDto);
-
-
-
-            return "book/index";
-       
-        
+            return "book/index";  // 上の処理が終わったら、book/index（書籍一覧）に画面遷移
     }
-
-    // @PostMapping("/book/add") //入力後の処理
-    // public String add(@Valid BookMstDto dto,  //BookmastDtoでバリデーションの確認する
-    //     BindingResult result,  //確認結果
-    //     Model model){
-        
-    //     //エラーがある場合
-    //     if (result.hasErrors()) {
-    //         return "book/add";
-    //     }
-
-    //     //エラーがない場合はDBに登録
-    //     bookMstService.addBookMst(Service);
-
-    //     //一覧画面へ遷移
-    //     return "book/indx";
-    //     }
-    // )
     
 }
