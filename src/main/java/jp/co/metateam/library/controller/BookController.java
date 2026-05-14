@@ -54,12 +54,8 @@ public class BookController {
 
     @PostMapping("/book/add") //　/book/addというリクエストが来たら以下のメソッドを実行する。
     public String save(@ModelAttribute BookMstDto bookMstDto){
-
-         bookMstService.register(bookMstDto); 
-        //書籍登録処理をserviceに依頼
+        bookMstService.register(bookMstDto); //書籍登録処理をserviceに依頼
 
         return "book/index"; //登録後は一覧画面へ
-
-     }
-
-    
+    }
+}
