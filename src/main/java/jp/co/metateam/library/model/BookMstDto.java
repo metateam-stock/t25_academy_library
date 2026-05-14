@@ -19,7 +19,7 @@ public class BookMstDto {
     private Long id; 
    @NotEmpty(message = "ISBNは必須です")
     @Size(max = 13,message = "ISBNは13文字以下で入力してください")
-    @Pattern(regexp = "^[0-9]+$" ,message= "ISBNの形が不正です<br>数値のみで入力してください")
+    @Pattern(regexp = "^[0-9]+$" ,message= "ISBNの形が不正です。数値のみで入力してください")
     private String isbn;//テキストボックス内のデータを確認する
 
     @NotEmpty(message = "書籍名は必須です")
@@ -27,10 +27,6 @@ public class BookMstDto {
     private String title;//テキストボックス内のデータを確認する
     
     private Timestamp deletedAt;
-
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
 
     private BookMst bookMst;
 

@@ -26,7 +26,6 @@ public class BookMstService{
         this.bookMstRepository = bookMstRepository;
     }
  
-
     public List<BookMstDto> findAvailableWithStockCount() {
         List<BookMst> books = this.bookMstRepository.findLimitedBook();
         List<BookMstDto> bookMstDtoList = new ArrayList<BookMstDto>();
@@ -52,13 +51,10 @@ public class BookMstService{
 
        book.setIsbn(bookDto.getIsbn());
        book.setTitle(bookDto.getTitle());
-       book.setCreatedAt(LocalDateTime.now());
-       book.setUpdateAt(LocalDateTime.now());
-
        
        this.bookMstRepository.save(book);
-     
        
+     
      }
     
 

@@ -24,7 +24,6 @@ public class BookMst {
     @Column(name = "id")
     private Long id;
 
-
     /** ISBN */
     @Column(name = "isbn", nullable = false, unique = true)
     private String isbn;
@@ -33,17 +32,9 @@ public class BookMst {
     @Column(name = "title", nullable = false)
     private String title;
 
-    /** 日時 */
+    /** 削除日時 */
     @Column(name = "deleted_at")
     private Timestamp deletedAt;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-
 
     /** Getters */
 
@@ -63,16 +54,6 @@ public class BookMst {
         return this.deletedAt;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return this.createdAt;
-    }
-    
-    public LocalDateTime getUpdatedAt() {
-        return this.updatedAt;
-    }
-
-
-
     /** Setters */
 
     public void setId(Long id) {
@@ -91,13 +72,4 @@ public class BookMst {
         this.deletedAt = deletedAt;
     }
    
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setUpdateAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-
 }
