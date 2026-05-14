@@ -57,7 +57,7 @@ public class BookMstService {
             book.setTitle(bookMstDto.getTitle());
             book.setIsbn(bookMstDto.getIsbn());
 
-            // データベースへの保存
+            // データベースへ保存
             bookMstRepository.save(book);
         
         }

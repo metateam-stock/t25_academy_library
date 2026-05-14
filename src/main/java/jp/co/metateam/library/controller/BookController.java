@@ -54,11 +54,11 @@ public class BookController {
         return "book/add"; //add.htmlを表示して
     }
 
-    @PostMapping("/book/add")//add.htmlにPostと定義されている
+    @PostMapping("/book/add")//add.htmlにPostと定義
       public String book( @ModelAttribute BookMstDto bookMstDto) {
            
             //DB登録
-            bookMstService.save(bookMstDto);    //Serviceの部分でbookMstDtoの情報をデータベースに保存,insertでもよし
+            bookMstService.save(bookMstDto);  //Serviceの部分でbookMstDtoの情報をデータベースに保存
 
             return "book/index";  // 上の処理が終わったら、book/index（書籍一覧）に画面遷移
     }
