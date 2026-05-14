@@ -18,7 +18,7 @@ public class BookMstDto {
     
     private Long id; 
    @NotEmpty(message = "ISBNは必須です")
-    @Size(max = 13,message = "ISBNは13文字以下で入力してください")
+    @Size(max = 13,min=10,message = "ISBNは10文字以上、13文字以下で入力してください")
     @Pattern(regexp = "^[0-9]+$" ,message= "ISBNの形が不正です。数値のみで入力してください")
     private String isbn;//テキストボックス内のデータを確認する
 
