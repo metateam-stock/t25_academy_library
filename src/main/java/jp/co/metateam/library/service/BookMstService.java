@@ -43,6 +43,19 @@ public class BookMstService {
         return bookMstDtoList;
     }
     
+     @Transactional
+    public void save(BookMstDto bookMstDto) {
+        BookMst entity = new BookMst(); // BookMstDtoからBookMstへの変換
+        entity.setTitle(bookMstDto.getTitle());
+        entity.setIsbn(bookMstDto.getIsbn());
+        // データベースへの保存
+        bookMstRepository.save(entity);
+    }
+ 
+    public Optional<BookMst> findByIsbn(String isbn) {
+        return bookMstRepository.findByIsbn(isbn);
+    }
+    
 }
 
 
