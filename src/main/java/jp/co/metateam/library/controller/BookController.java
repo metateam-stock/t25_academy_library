@@ -51,4 +51,23 @@ public class BookController {
         return "book/add";
     }
     
+     @PostMapping("/book/add")//登録処理
+    public String addbook(@Valid @ModelAttribute BookMstDto bookMstDto,
+            BindingResult result) {
+        // バリデーションエラー判定
+        if (result.hasErrors()) {
+            return "book/add"; // 入力画面に戻す（ビュー名は適宜変更）
+        }
+        // ISBN重複チェック
+        if (bookMstService.findByIsbn(bookMstDto.getIsbn()).isPresent()) {
+            result.rejectValue(
+                    "isbn",
+                    "duplicate",
+                    "登録済みのISBNです");
+            return "book/add";
+        }
+        bookMstService.save(bookMstDto);
+        return "redirect:/book/index";
+    }
+    
 }
