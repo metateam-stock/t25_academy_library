@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import io.micrometer.common.util.StringUtils;
+import jp.co.metateam.library.model.Account;
 import jp.co.metateam.library.model.BookMst;
 import jp.co.metateam.library.model.BookMstDto;
 import jp.co.metateam.library.repository.BookMstRepository;
@@ -19,12 +20,12 @@ import jp.co.metateam.library.repository.BookMstRepository;
 public class BookMstService {
 
     private final BookMstRepository bookMstRepository;
-    
+
     @Autowired
-    public BookMstService(BookMstRepository bookMstRepository){
+    public BookMstService(BookMstRepository bookMstRepository) {
         this.bookMstRepository = bookMstRepository;
     }
-    
+
     public List<BookMstDto> findAvailableWithStockCount() {
         List<BookMst> books = this.bookMstRepository.findLimitedBook();
         List<BookMstDto> bookMstDtoList = new ArrayList<BookMstDto>();
@@ -42,8 +43,28 @@ public class BookMstService {
 
         return bookMstDtoList;
     }
-    
+
+    // ここから
+ @Transactional //一連の流れを実行する　ロールバックできるようになる（エラーが出たときにエラー前の状態に戻せる）
+    public void save(BookMstDto bookMstDto) { //voidは処理を実行　saveは登録 　
+    // 緑字情報を入れる箱　オレンジ字はその箱の中の情報の束
+        try {
+            // BookMstDtoからbookへの変換
+            BookMst book = new BookMst(); 
+            //左BookMstからbookに情報を変換する。そのためにbookというデータの箱を作る宣言　右作りました報告
+            //BookMstは書き換えられるデータ（空欄・不整地）で安全性が低いため（データが出威厳されている）、書き換えられないbookに移し替えている
+
+            book.setTitle(bookMstDto.getTitle()); 
+            book.setIsbn(bookMstDto.getIsbn());
+            //入力されたデータ（bookMstDto）をbookにセットする
+
+            // データベースへの保存
+            this.bookMstRepository.save(book);
+            //bookに変換されたの内容を、リポジトリに保存する
+            //thisとは型か変数か見分けるためのもの
+
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }
-
-
-
